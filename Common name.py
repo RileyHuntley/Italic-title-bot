@@ -27,6 +27,7 @@ regex = re.compile('# \[\[(?P<source>.*?)\]\] to \[\[(?P<target>.*?)\]\]')
 site = pywikibot.getSite()
 template = pywikibot.Page(site, 'Template:Italic title')
 all = [p.title(withNamespace=False).lower() for p in template.getReferences(redirectsOnly=True, )]
+all += [x[len("Template:"):] for x in all]
 t_regex = re.compile('\{\{'+'|'.join(all)+'\}\}', flags=re.IGNORECASE)
 control = pywikibot.Page(site, 'User:Italic title bot/Common name for renaming')
 text = control.get()
@@ -57,8 +58,9 @@ for line in text.splitlines():
     newtext = text = page.get()
     code = mwparserfromhell.parse(text)
     for template in code.filter_templates(recursive=True):
-        if template.name.lower().strip() in all + [x[len("Template:"):] for x in all]:
-            code.remove(template); newtext = code.strip()
+        if template.name.lower().strip() in all:
+            code.remove(template)
+            newtext = code.strip()
     pywikibot.showDiff(text, newtext)
     page.put(newtext, 'Robot: Removing {{[[Template:Italic title|Italic title]]}}')
 print 'Saving errors'
