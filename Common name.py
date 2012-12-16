@@ -44,7 +44,7 @@ for line in text.splitlines():
     except:
         print 'Didn\'t work.'
         errors.append(line)
-print 'Daving errors'
+print 'Saving errors'
 with open('errors.txt','w') as f:
     f.write('\n'.join(errors))
 print 'Done!'
