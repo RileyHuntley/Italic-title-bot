@@ -29,7 +29,6 @@ template = pywikibot.Page(site, 'Template:Italic title')
 all = [template.title().lower(), template.title(withNamespace=False).lower()]
 for p in template.getReferences(redirectsOnly=True):
     all += [p.title().lower(), p.title(withNamespace=False).lower()]
-print all
 t_regex = re.compile('\{\{'+'|'.join(all)+'\}\}', flags=re.IGNORECASE)
 control = pywikibot.Page(site, 'User:Italic title bot/Common name for renaming')
 text = control.get()
