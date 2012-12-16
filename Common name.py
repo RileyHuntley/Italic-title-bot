@@ -24,16 +24,16 @@ import wikipedia as pywikibot
 import re
 regex = re.compile('# \[\[(?P<source>.*?)\]\] to \[\[(?P<target>.*?)\]\]')
 site = pywikibot.getSite()
-control = pywikibot.Page(site, 'User:Riley Huntley/Species move')
+control = pywikibot.Page(site, 'User:Italic title bot/Common name for renaming')
 text = control.get()
-summary = 'Renaming scientific name to common name per [[WP:COMMONAME]]'
+summary = 'Robot: Renaming scientific name to common name per [[WP:COMMONAME]]'
 errors = list()
 for line in text.splitlines():
     if not line.startswith('#'):
         continue
     s= regex.search(line)
     if not s:
-        print 'UHOH'
+        print 'Uh Oh'
         print line
         errors.append(line)
         continue
@@ -42,9 +42,9 @@ for line in text.splitlines():
     try:
         original.move(s.group('target'), summary)
     except:
-        print 'didnt work.'
+        print 'Didn\'t work.'
         errors.append(line)
-print 'saving errors'
+print 'Daving errors'
 with open('errors.txt','w') as f:
     f.write('\n'.join(errors))
-print 'done!'
+print 'Done!'
