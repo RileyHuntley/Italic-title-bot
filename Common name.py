@@ -57,8 +57,8 @@ for line in text.splitlines():
     newtext = text = page.get()
     code = mwparserfromhell.parse(text)
     for template in code.filter_templates(recursive=True):
-        if template.name.lower().strip() in all:
-            newtext = newtext.replace(unicode(template),'').strip()
+        if template.name.lower().strip() in all + [x[len("Template:"):] for x in all]:
+            code.remove(template); newtext = code.strip()
     pywikibot.showDiff(text, newtext)
     page.put(newtext, 'Robot: Removing {{[[Template:Italic title|Italic title]]}}')
 print 'Saving errors'
