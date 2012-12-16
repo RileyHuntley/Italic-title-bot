@@ -20,11 +20,10 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 IN THE SOFTWARE.
 """
-import wikipedia
-import pywikibot
+import wikipedia as pywikibot
 import re
 regex = re.compile('# \[\[(?P<source>.*?)\]\] to \[\[(?P<target>.*?)\]\]')
-site = wikipedia.Site()
+site = pywikibot.getSite()
 control = pywikibot.Page(site, 'User:Riley Huntley/Species move')
 text = control.get()
 summary = 'Renaming scientific name to common name per [[WP:COMMONAME]]'
