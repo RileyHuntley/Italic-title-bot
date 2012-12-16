@@ -26,8 +26,9 @@ import re
 regex = re.compile('# \[\[(?P<source>.*?)\]\] to \[\[(?P<target>.*?)\]\]')
 site = pywikibot.getSite()
 template = pywikibot.Page(site, 'Template:Italic title')
-all = [p.title(withNamespace=False).lower() for p in template.getReferences(redirectsOnly=True, )]
-all += [x[len("Template:"):] for x in all]
+all = [template.title().lower(), template.title(withNamespace=False).lower()]
+for p in template.getReferences(redirectsOnly=True):
+    all += [p.title().lower(), p.title(withNamespace=False).lower()]
 print all
 t_regex = re.compile('\{\{'+'|'.join(all)+'\}\}', flags=re.IGNORECASE)
 control = pywikibot.Page(site, 'User:Italic title bot/Common name for renaming')
