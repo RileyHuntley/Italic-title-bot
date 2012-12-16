@@ -60,7 +60,7 @@ for line in text.splitlines():
         if template.name.lower().strip() in all:
             newtext = newtext.replace(unicode(template),'').strip()
     pywikibot.showDiff(text, newtext)
-    page.put(newtext, 'Robot: Removing {{italic title}}')
+    page.put(newtext, 'Robot: Removing {{[[Template:Italic title|Italic title]]}}')
 print 'Saving errors'
 with open('errors.txt','w') as f:
     f.write('\n'.join(errors))
