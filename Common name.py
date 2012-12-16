@@ -23,7 +23,7 @@ IN THE SOFTWARE.
 import pywikibot
 import re
 regex = re.compile('# \[\[(?P<source>.*?)\]\] to \[\[(?P<target>.*?)\]\]')
-site = pywikibot.Site()
+site = wikipedia.Site()
 control = pywikibot.Page(site, 'User:Riley Huntley/Species move')
 text = control.get()
 summary = 'Renaming scientific name to common name per [[WP:COMMONAME]]'
