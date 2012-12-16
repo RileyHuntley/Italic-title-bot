@@ -24,6 +24,9 @@ import wikipedia as pywikibot
 import re
 regex = re.compile('# \[\[(?P<source>.*?)\]\] to \[\[(?P<target>.*?)\]\]')
 site = pywikibot.getSite()
+template = pywikibot.Page(site, 'Template:Italic title')
+all = [p.title(withNamespace=False).lower() for p in template.getReferences(redirectsOnly=True)]
+t_regex = re.compile('\{\{'+'|'.join(all)+'\}\}', flags=re.IGNORECASE)
 control = pywikibot.Page(site, 'User:Italic title bot/Common name for renaming')
 text = control.get()
 summary = 'Robot: Renaming scientific name to common name per [[WP:COMMONAME]]'
@@ -44,6 +47,13 @@ for line in text.splitlines():
     except:
         print 'Didn\'t work.'
         errors.append(line)
+        continue
+    #remove the template
+    page = pywikibot.Page(site, s.group('target'))
+    text = page.get()
+    newtext = t_regex.sub('').strip()
+    pywikibot.showDiff(text, newtext)
+    page.put(newtext, 'Bot: Removing {{italic title}}')
 print 'Saving errors'
 with open('errors.txt','w') as f:
     f.write('\n'.join(errors))
