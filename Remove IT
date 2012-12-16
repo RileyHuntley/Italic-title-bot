@@ -1,0 +1,45 @@
+"""
+Created by Hairr <hairrazerrr@gmail.com> for Riley Huntley at Wikipedia :)
+December 15, 2012
+"""
+import mwhair
+import re
+import time
+import sys
+from difflib import context_diff
+
+class FindAndReplace(object):
+  def __init__(self, username, password):
+		mwhair.site("http://en.wikipedia.org/w/api.php")
+		mwhair.login(username, password)
+		
+	def get_pages(self):
+		pages = mwhair.template("Template:Italic title",eilimit=500)   ## I don't remember the template name :P
+		return pages
+		
+	def find_and_replace(self, text):
+		new_text = re.sub(r"{{Italic title}}(\n)?","",text,flags=re.IGNORECASE)
+		return new_text
+		
+	def run(self):
+		pages = self.get_pages()
+		for page in pages:
+			text = mwhair.edit(page)
+			new_text = self.find_and_replace(text)
+			if text != new_text:
+				for line in context_diff(text.encode('ascii','ignore').split('\n'),new_text.encode('ascii','ignore').split('\n')):
+					sys.stdout.write(line)
+				confirm = raw_input("Save? [y]/n: ")
+				if str(confirm) == "y" or str(confirm) == "Y" or str(confirm) == "YES!!!":  ## This means the confirm has to be a y, not any variation (ex. yes, YES!)
+					print "Saving %s...\n===========" % page
+					mwhair.save(page, text=new_text, summary="Removing {{[[Template:Italic title|Italic title]]}})", minor=True)
+					time.sleep(1) # So mass spam doesn't occur
+				else:
+					print "Skipping %s...\n==========" % page
+					time.sleep(1)
+				
+if __name__ == '__main__':
+	username = raw_input("Username: ")
+	password = raw_input("Password: ")
+	bot = FindAndReplace(username, password)
+	bot.run()
