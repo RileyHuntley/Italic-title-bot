@@ -2,7 +2,7 @@
 # -*- coding: utf-8  -*-
 """
 This is a Bot written by Filnik to add a text at the end of the page but above
-categories, interwiki and template for the stars of the interwiki (default).
+categories, interwiki and template for the stars of the interwiki (default). Modified by Riley Huntley.
 
 Alternatively it may also add a text at the top of the page.
 These command line parameters can be used to specify which pages to work on:
